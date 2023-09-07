@@ -1,22 +1,14 @@
-from telegram.ext import Updater, MessageHandler, Filters
+from pyrogram import Client, filters
 
-# Replace 'YOUR_BOT_TOKEN' with your bot's token
 BOT_TOKEN = '6028376714:AAEc-lTbdg0HypAgdXg2Wz3vMeI5WvRjORA'
+CHANNEL_ID = -1001604178274  # Replace with your channel ID (a negative integer)
 
-def delete_messages(update, context):
+app = Client('my_bot', bot_token=BOT_TOKEN)
+
+@app.on_message(filters.chat(CHANNEL_ID))
+def delete_messages(client, message):
     # Delete the incoming message
-    update.message.delete()
-
-def main():
-    updater = Updater(token=BOT_TOKEN, use_context=True)
-    dp = updater.dispatcher
-
-    # Register the message handler to delete all incoming messages
-    dp.add_handler(MessageHandler(Filters.all, delete_messages))
-
-    # Start the bot
-    updater.start_polling()
-    updater.idle()
+    message.delete()
 
 if __name__ == "__main__":
-    main()
+    app.run()
